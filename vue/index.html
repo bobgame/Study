@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible"
+    content="ie=edge">
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <title>Document</title>
 </head>
+
 <body>
   <div id="app">
-    {{message}}
+    <input v-model="message"
+      placeholder="Edit me">
+    <p>Message is: {{message}}</p>
   </div>
   <div id="app-2">
-    <span :title="message">
-      Hover to show tips!
-    </span>
+    <p>Multiline:</p>
+    <textarea v-model="message"
+      placeholder="Edit me"></textarea>
+    <p>Message is: {{message}}</p>
   </div>
-  <div id="app-3" v-if="seen">
-    <p>You can see me now!</p>
-  </div>
-  <div id="app-4">
-    <ol>
-      <todo-item 
-        v-for="item in todos"
-        :todo="item"
-        :key="item.id"
-        ></todo-item>
-    </ol>
-  </div>
-  <div id="app-5">
-    <p>{{message}}</p>
-    <p>{{reverseBackMessage}}</p>
-    <button @click="reverseMessage">Reverse message</button>
-  </div>
-  <div id="app-6">
-    <p>{{message}}</p>
-    <input v-model="message">
+  <div id='app-3'>
+    <input type="checkbox"
+      id="jack"
+      value="1"
+      v-model="checkedNames">
+    <label for="jack">Jack</label>
+    <input type="checkbox"
+      id="john"
+      value="2"
+      v-model="checkedNames">
+    <label for="john">John</label>
+    <input type="checkbox"
+      id="mike"
+      value="3"
+      v-model="checkedNames">
+    <label for="mike">Mike</label>
+    <br>
+    <span>Checked names: {{ checkedNames }}</span>
   </div>
 </body>
 <script src="index.js"></script>
+
 </html>
