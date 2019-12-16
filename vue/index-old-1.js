@@ -41,11 +41,6 @@ const app5 = new Vue({
   data: {
     message: 'Hello user!'
   },
-  computed: {
-    reverseBackMessage: function () {
-      return this.message.split('').reverse().join('')
-    }
-  },
   methods: {
     reverseMessage: function () {
       this.message = this.message.split('').reverse().join('')
