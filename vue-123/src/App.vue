@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app-con">
     <div class="nav">
       <!-- 使用 router-link 组件来导航. -->
       <!-- 通过传入 `to` 属性指定链接. -->
@@ -15,11 +15,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
 
 @Component({
   components: {
-    HelloWorld,
   },
 })
 export default class App extends Vue {}
