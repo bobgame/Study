@@ -1,37 +1,35 @@
 <template>
-  <div class="search">
-    <div class="input-box">
-      <div id="search-select" class="search-select">
-        <div
-          class="search-select-show"
-          @click.stop="showSelectBox = !showSelectBox"
-        >{{searchUsed.name}}</div>
-        <div class="search-select-box" v-if="showSelectBox">
-          <div
-            v-for="item of allSearches"
-            :key="'select-key-' + item.type"
-            class="select-option"
-            @click="setSearchSelect(item.type)"
-          >{{item.name}}</div>
-        </div>
+  <div class="mark-box">
+    <div v-for="(mark, index) in allMarks" :key="'mark-con-' + index" class="mark-con">
+      <div class="mark-con-title">{{mark.title}}</div>
+      <div class="mark-list">
+        <a
+          class="mark-item"
+          v-for="(item, subIndex) in mark.items"
+          :key="'mark-list-' + index + '-' + subIndex"
+          :href="item.url"
+          target="_blank"
+        >
+          <img :src="item.icon" :onerror="defaultImg" />
+          <span>{{item.name}}</span>
+        </a>
+        <div class="mark-item-empty"></div>
+        <div class="mark-item-empty"></div>
+        <div class="mark-item-empty"></div>
       </div>
-      <input
-        id="search-input"
-        @keyup.enter="search()"
-        v-model="searchUsed.value"
-        class="search-input"
-        type="text"
-      />
-      <div class="search-btn" @click="search()">搜索</div>
     </div>
+    <div class="mark-con-empty"></div>
+    <div class="mark-con-empty"></div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator"
+import { Mark } from "@/interface/mark.interface"
+import { MockMark } from "./mock-mark"
 
 @Component
-export default class SearchBox extends Vue {
+export default class MarkBox extends Vue {
   // @Prop() private msg!: string;
   private showSelectBox = false;
   private searchUsed = {
@@ -39,6 +37,8 @@ export default class SearchBox extends Vue {
     name: "百度",
     value: ""
   };
+  private allMarks: Mark[] = [];
+  private defaultImg = 'this.src="' + require("../../assets/empty.svg") + '"';
 
   private allSearches = [
     { type: "baidu", name: "百度" },
@@ -47,21 +47,19 @@ export default class SearchBox extends Vue {
   ];
 
   mounted() {
-    console.log(111)
-    console.log(111)
-    console.log(111)
-    this.setSearchSelect('bing')
-    this.$nextTick(function() {
-      document.addEventListener("click", e => {
-        this.showSelectBox = false
+    this.$http
+      .get("/static/data/mark.json")
+      .then((res: any) => {
+        this.allMarks = res.body.mark
+      }, error => {
+        this.allMarks = MockMark
       })
-    })
   }
   // 销毁document的点击事件
   beforeDestroy() {
-    document.removeEventListener("click", e => {
-      this.showSelectBox = false
-    })
+    // document.removeEventListener("click", e => {
+    //   this.showSelectBox = false;
+    // });
   }
 
   private setSearchSelect(typeName: string) {
@@ -73,11 +71,9 @@ export default class SearchBox extends Vue {
   }
 
   private search() {
+    window.console.log("search")
     const value = this.searchUsed.value
-    if (!value) {
-      this.focusSearchInput()
-      return
-    }
+    window.console.log(value)
     switch (this.searchUsed.type) {
       case "baidu":
         this.searchBaidu(value)
@@ -92,9 +88,6 @@ export default class SearchBox extends Vue {
         break
     }
   }
-  private focusSearchInput() {
-    (document.querySelector("#search-input") as HTMLElement).focus()
-  }
   private searchBaidu(value: string) {
     window.open(`https://www.baidu.com/s?wd=${value}`, "_blank")
   }
@@ -108,4 +101,4 @@ export default class SearchBox extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss" src="./SearchBox.scss"></style>
+<style scoped lang="scss" src="./MarkBox.scss"></style>

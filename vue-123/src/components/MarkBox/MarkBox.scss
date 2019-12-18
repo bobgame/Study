@@ -1,0 +1,60 @@
+.mark-box {
+	width: 90%;
+	max-width: 120rem;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	.mark-con {
+		width: 32%;
+		margin-bottom: 2rem;
+		border: 1px solid #ddd;
+		border-radius: 0.4rem;
+		overflow: hidden;
+
+		.mark-con-title {
+			width: 100%;
+			height: 2rem;
+			line-height: 2rem;
+			font-size: 1.2rem;
+			text-align: left;
+			padding-left: 1rem;
+			background-color: #fafafa;
+		}
+
+		.mark-list {
+			display: flex;
+			flex-wrap: wrap;
+			align-content: flex-start;
+			justify-content: flex-start;
+			font-size: 1.4rem;
+
+			.mark-item {
+				width: 11rem;
+				height: 3rem;
+				padding: 0 0.8rem;
+				margin: 0.5rem 1rem 0.5rem 0;
+				display: flex;
+				align-items: center;
+
+				img {
+					flex: 0 0 1.6rem;
+					width: 1.6rem;
+					height: 1.6rem;
+					margin-right: 0.5rem;
+				}
+
+				span {}
+			}
+
+			.mark-item-empty {
+				width: 12rem;
+			}
+		}
+	}
+
+	.mark-con-empty {
+		width: 32%;
+	}
+}
