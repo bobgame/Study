@@ -1,4 +1,4 @@
-import { Mark } from '@/interface/mark.interface';
+import { Mark } from '@/interface/mark.interface'
 
 export const MockMark: Mark[] = [
   {
