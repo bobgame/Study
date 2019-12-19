@@ -1,32 +1,17 @@
 {
   "mark": [
     {
-      "title": "常用2",
+      "title": "常用",
       "items": [
         {
-          "name": "Angular",
-          "icon": "https://angular.io/assets/images/favicons/favicon-96x96.png",
-          "url": "https://angular.io/"
+          "name": "Github",
+          "icon": "https://github.githubassets.com/favicon.ico",
+          "url": "https://github.com/bobgame"
         },
         {
-          "name": "React",
-          "icon": "https://reactjs.org/icons/icon-48x48.png",
-          "url": "https://zh-hans.reactjs.org/"
-        },
-        {
-          "name": "Vue CLI",
+          "name": "stackoverflow",
           "icon": "https://cli.vuejs.org/favicon.png",
-          "url": "https://cli.vuejs.org/zh/"
-        },
-        {
-          "name": "React",
-          "icon": "https://reactjs.org/icons/icon-48x48.png",
-          "url": "https://zh-hans.reactjs.org/"
-        },
-        {
-          "name": "Vue CLI",
-          "icon": "https://cli.vuejs.org/favicon.png",
-          "url": "https://cli.vuejs.org/zh/"
+          "url": "https://stackoverflow.com"
         }
       ]
     },
@@ -42,6 +27,16 @@
           "name": "React",
           "icon": "https://reactjs.org/icons/icon-48x48.png",
           "url": "https://zh-hans.reactjs.org/"
+        },
+        {
+          "name": "Vue CLI",
+          "icon": "https://cli.vuejs.org/favicon.png",
+          "url": "https://cli.vuejs.org/zh/"
+        },
+        {
+          "name": "Bootstrap",
+          "icon": "https://v4.bootcss.com/docs/4.3/assets/img/favicons/favicon-32x32.png",
+          "url": "https://v4.bootcss.com/"
         }
       ]
     },
@@ -49,14 +44,19 @@
       "title": "设计",
       "items": [
         {
-          "name": "Angular",
-          "icon": "https://angular.io/assets/images/favicons/favicon-96x96.png",
-          "url": "https://angular.io/"
+          "name": "优设导航",
+          "icon": "https://hao.uisdc.com/favicon.ico",
+          "url": "https://hao.uisdc.com/"
         },
         {
-          "name": "React",
-          "icon": "https://reactjs.org/icons/icon-48x48.png",
-          "url": "https://zh-hans.reactjs.org/"
+          "name": "千图网",
+          "icon": "https://www.58pic.com/favicon.ico",
+          "url": "https://www.58pic.com/"
+        },
+        {
+          "name": "花瓣",
+          "icon": "https://huaban.com/favicon.ico",
+          "url": "https://huaban.com/"
         }
       ]
     },
@@ -64,14 +64,19 @@
       "title": "自用",
       "items": [
         {
-          "name": "Angular",
-          "icon": "https://angular.io/assets/images/favicons/favicon-96x96.png",
-          "url": "https://angular.io/"
+          "name": "三国官网",
+          "icon": "http://game.llbnew.com/favicon.ico",
+          "url": "http://game.llbnew.com"
         },
         {
-          "name": "React",
-          "icon": "https://reactjs.org/icons/icon-48x48.png",
-          "url": "https://zh-hans.reactjs.org/"
+          "name": "三国英雄",
+          "icon": "http://game.llbnew.com/favicon.ico",
+          "url": "http://sgadmin.llbnew.com"
+        },
+        {
+          "name": "三国攻略",
+          "icon": "http://game.llbnew.com/favicon.ico",
+          "url": "http://sggl.llbnew.com/"
         }
       ]
     },

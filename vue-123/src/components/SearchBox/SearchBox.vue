@@ -43,13 +43,11 @@ export default class SearchBox extends Vue {
   private allSearches = [
     { type: "baidu", name: "百度" },
     { type: "google", name: "谷歌" },
-    { type: "bing", name: "必应" }
+    { type: "bing", name: "必应" },
+    { type: "stackoverflow", name: "Stack" }
   ];
 
   mounted() {
-    console.log(111)
-    console.log(111)
-    console.log(111)
     this.setSearchSelect('bing')
     this.$nextTick(function() {
       document.addEventListener("click", e => {
@@ -88,6 +86,9 @@ export default class SearchBox extends Vue {
       case "bing":
         this.searchBing(value)
         break
+      case "stackoverflow":
+        this.searchStackOverflow(value)
+        break
       default:
         break
     }
@@ -103,6 +104,9 @@ export default class SearchBox extends Vue {
   }
   private searchBing(value: string) {
     window.open(`https://www.bing.com/search?q=${value}`, "_blank")
+  }
+  private searchStackOverflow(value: string) {
+    window.open(`https://stackoverflow.com/search?q=${value}`, "_blank")
   }
 }
 </script>
