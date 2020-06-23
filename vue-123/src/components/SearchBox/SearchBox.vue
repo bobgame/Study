@@ -48,7 +48,12 @@ export default class SearchBox extends Vue {
   ];
 
   mounted() {
-    this.setSearchSelect('bing')
+    const localType = localStorage.getItem("searchType")
+    if (localType) {
+      this.setSearchSelect(localType)
+    } else {
+      this.setSearchSelect("bing")
+    }
     this.$nextTick(function() {
       document.addEventListener("click", e => {
         this.showSelectBox = false
@@ -66,6 +71,7 @@ export default class SearchBox extends Vue {
     const thisSearch = this.allSearches.find(a => a.type === typeName)
     if (thisSearch) {
       this.searchUsed.type = thisSearch.type
+      localStorage.setItem("searchType", thisSearch.type)
       this.searchUsed.name = thisSearch.name
     }
   }
