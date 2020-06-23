@@ -1,26 +1,44 @@
+$cardWidth: 20%;
 .mark-box {
-	width: 90%;
+	width: calc(90% + 3rem);
 	max-width: 120rem;
 	margin: 0 auto;
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: space-around;
+
+	.mark-con-empty {
+		width: $cardWidth;
+	}
 
 	.mark-con {
-		width: 32%;
-		margin-bottom: 2rem;
-		border: 1px solid #ddd;
-		border-radius: 0.4rem;
-		overflow: hidden;
+		width: $cardWidth;
+		padding: 1.5rem;
+		.mark-card{
+			width: 100%;
+			height: 100%;
+			border: 1px solid #ddd;
+			border-radius: 1rem;
+			box-shadow: 0 2px 6px rgba($color: #000000, $alpha: .1);
+			overflow: hidden;
+			transition: box-shadow .3s;
+			&:hover {
+				box-shadow: 0 2px 8px rgba($color: #000000, $alpha: .2);
+				.mark-con-title {
+					background: linear-gradient(180deg, #fafafa, #fff);
+				}
+			}
+		}
 
 		.mark-con-title {
 			width: 100%;
-			height: 2rem;
-			line-height: 2rem;
+			height: 3rem;
+			line-height: 3rem;
 			font-size: 1.2rem;
-			text-align: left;
-			padding-left: 1rem;
-			background-color: #fafafa;
+			text-align: center;
+			// padding-left: 1rem;
+			// background: #fafafa;
+			background: linear-gradient(180deg, #f5f5f5, #fff);
 		}
 
 		.mark-list {
@@ -28,16 +46,17 @@
 			flex-wrap: wrap;
 			align-content: flex-start;
 			justify-content: flex-start;
-			font-size: 1.2rem;
-			padding-bottom: 0.5rem;
+			font-size: 1.4rem;
+			padding-bottom: 1rem;
 
 			.mark-item {
-				width: 12.2rem;
-				height: 3rem;
-				padding: 0 0.8rem;
-				margin: 0.5rem 0.5rem 0 0;
+				width: 100%;
+				height: 4rem;
+				padding: 0 2rem;
 				display: flex;
 				align-items: center;
+				transition: background-color .3s;
+				
 
 				img {
 					flex: 0 0 1.6rem;
@@ -46,7 +65,14 @@
 					margin-right: 0.5rem;
 				}
 
-				span {}
+				span {overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;}
+				&:hover {
+					font-weight: bold;
+					text-decoration: none;
+					background-color: #eafffc;
+				}
 			}
 
 			.mark-item-empty {
@@ -54,8 +80,20 @@
 			}
 		}
 	}
-
-	.mark-con-empty {
-		width: 32%;
+	@media only screen and (max-width: 1000px) {
+		.mark-con-empty, .mark-con {
+			width: 25%;
+		}
 	}
+	@media only screen and (max-width: 800px) {
+		.mark-con-empty, .mark-con {
+			width: 33.3333333%;
+		}
+	}
+	@media only screen and (max-width: 600px) {
+		.mark-con-empty, .mark-con {
+			width: 50%;
+		}
+	}
+
 }
