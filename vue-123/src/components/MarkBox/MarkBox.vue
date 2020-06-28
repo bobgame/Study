@@ -1,5 +1,10 @@
 <template>
-  <div class="mark-box">
+  <draggable
+    class="mark-box"
+    :list="allMarks"
+    group="allMarksGroup"
+    @change="handleChange"
+  >
     <div
       v-for="(mark, index) in allMarks"
       :key="'mark-con-' + index"
@@ -7,7 +12,12 @@
     >
       <div class="mark-card">
         <div class="mark-con-title">{{ mark.title }}</div>
-        <div class="mark-list">
+        <draggable
+          class="mark-list"
+          :list="mark.items"
+          group="markGroup"
+          @change="handleChange2"
+        >
           <div
             class="mark-item"
             v-for="(item, subIndex) in mark.items"
@@ -25,7 +35,7 @@
               <span>{{ item.name }}</span>
             </a>
           </div>
-        </div>
+        </draggable>
       </div>
     </div>
     <div class="mark-con-empty"></div>
@@ -33,7 +43,12 @@
     <div class="mark-con-empty"></div>
     <div class="mark-con-empty"></div>
     <button @click="saveMark()">save</button>
-  </div>
+    <draggable v-model="myList">
+      <div v-for="element in myList" :key="element.id" class="item">
+        {{ element.name }}
+      </div>
+    </draggable>
+  </draggable>
 </template>
 
 <script lang="ts">
@@ -41,10 +56,16 @@ import { Component, Vue } from 'vue-property-decorator'
 import { Mark } from '@/interface/mark.interface'
 import { APPUSE } from '../../app-config'
 import store from '../../store'
+import draggable from 'vuedraggable'
 
-@Component
+@Component({
+  components: {
+    draggable
+  }
+})
 export default class MarkBox extends Vue {
   // @Prop() private msg!: string;
+  myList = [{ name: 1 }, { name: 2 }, { name: 3 }]
   private isShowIcon = false
   private isLoadServer = false
   private get name() {
@@ -103,6 +124,15 @@ export default class MarkBox extends Vue {
     // });
   }
 
+  handleChange() {
+    // window.console.log(evt)
+    this.saveMark()
+  }
+  handleChange2() {
+    // window.console.log(evt)
+    this.saveMark()
+  }
+
   private saveMark() {
     if (this.isLoadServer) {
       this.$http
@@ -116,6 +146,7 @@ export default class MarkBox extends Vue {
           (res: any) => {
             if (res && res.data && res.data.isOK) {
               console.log('服务器保存成功')
+              localStorage.setItem('mark', JSON.stringify(this.allMarks))
             }
           },
           error => {
