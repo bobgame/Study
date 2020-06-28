@@ -1,20 +1,28 @@
 <template>
   <div class="mark-box">
-    <div v-for="(mark, index) in allMarks" :key="'mark-con-' + index" class="mark-con">
+    <div
+      v-for="(mark, index) in allMarks"
+      :key="'mark-con-' + index"
+      class="mark-con"
+    >
       <div class="mark-card">
-        <div class="mark-con-title">{{mark.title}}</div>
+        <div class="mark-con-title">{{ mark.title }}</div>
         <div class="mark-list">
           <div
             class="mark-item"
             v-for="(item, subIndex) in mark.items"
             :key="'mark-list-' + index + '-' + subIndex"
           >
-            <div class="color" v-if="!isShowIcon"><i class="color-dot"></i></div>
-            <a
-            :href="item.url"
-            target="_blank">
-              <img :src="item.icon" v-if="isShowIcon" :onerror="defaultImg" />
-            <span>{{item.name}}</span>
+            <div class="color" v-if="!isShowIcon || !item.icon">
+              <i class="color-dot"></i>
+            </div>
+            <a :href="item.url" target="_blank">
+              <img
+                :src="item.icon"
+                v-if="isShowIcon && item.icon"
+                :onerror="defaultImg"
+              />
+              <span>{{ item.name }}</span>
             </a>
           </div>
         </div>
@@ -24,13 +32,13 @@
     <div class="mark-con-empty"></div>
     <div class="mark-con-empty"></div>
     <div class="mark-con-empty"></div>
+    <button @click="saveMark()">save</button>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator"
-import { Mark } from "@/interface/mark.interface"
-import { MockMark } from "./mock-mark"
+import { Component, Vue } from 'vue-property-decorator'
+import { Mark } from '@/interface/mark.interface'
 import { APPUSE } from '../../app-config'
 import store from '../../store'
 
@@ -38,23 +46,24 @@ import store from '../../store'
 export default class MarkBox extends Vue {
   // @Prop() private msg!: string;
   private isShowIcon = false
+  private isLoadServer = false
   private get name() {
     return store.state.name
   }
-  private showSelectBox = false;
+  private showSelectBox = false
   private searchUsed = {
-    type: "baidu",
-    name: "百度",
-    value: ""
-  };
-  private allMarks: Mark[] = [];
-  private defaultImg = 'this.src="' + require("../../assets/empty.svg") + '"';
+    type: 'baidu',
+    name: '百度',
+    value: ''
+  }
+  private allMarks: Mark[] = []
+  private defaultImg = 'this.src="' + require('../../assets/empty.svg') + '"'
 
   private allSearches = [
-    { type: "baidu", name: "百度" },
-    { type: "google", name: "谷歌" },
-    { type: "bing", name: "必应" }
-  ];
+    { type: 'baidu', name: '百度' },
+    { type: 'google', name: '谷歌' },
+    { type: 'bing', name: '必应' }
+  ]
 
   mounted() {
     const localIsShowIcon = localStorage.getItem('isShowIcon')
@@ -65,10 +74,12 @@ export default class MarkBox extends Vue {
     if (localMark) {
       this.allMarks = JSON.parse(localMark)
     }
-    this.$http.post(APPUSE.host +  "/users/getmark", {name: this.name}).then(
+    this.$http.post(APPUSE.host + '/users/getmark', { name: this.name }).then(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (res: any) => {
         this.isShowIcon = res.body.isShowIcon
         this.allMarks = res.body.mark
+        this.isLoadServer = true
         localStorage.setItem('isShowIcon', JSON.stringify(res.body.isShowIcon))
         localStorage.setItem('mark', JSON.stringify(res.body.mark))
       },
@@ -92,21 +103,46 @@ export default class MarkBox extends Vue {
     // });
   }
 
+  private saveMark() {
+    if (this.isLoadServer) {
+      this.$http
+        .post(APPUSE.host + '/users/savemark', {
+          name: this.name,
+          isShowIcon: this.isShowIcon,
+          mark: this.allMarks
+        })
+        .then(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (res: any) => {
+            if (res && res.data && res.data.isOK) {
+              console.log('服务器保存成功')
+            }
+          },
+          error => {
+            console.log(error)
+          }
+        )
+    } else {
+      console.log('未连接服务器')
+    }
+  }
+
   Unicode2Native(value: string): string {
-    var code: any = value.match(/&#(\d+);/g)
-    let str = ""
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const code: any = value.match(/&#(\d+);/g)
+    let str = ''
     if (code) {
-      for (var i = 0; i < code.length; i++) {
-        str += String.fromCharCode(code[i].replace(/[&#;]/g, ""))
+      for (let i = 0; i < code.length; i++) {
+        str += String.fromCharCode(code[i].replace(/[&#;]/g, ''))
       }
     }
     return str
   }
 
   Native2Unicode(value: string): string {
-    let str = ""
-    for (var i = 0; i < value.length; i++) {
-      str += "&#" + value.charCodeAt(i)
+    let str = ''
+    for (let i = 0; i < value.length; i++) {
+      str += '&#' + value.charCodeAt(i)
     }
     return str
   }
@@ -120,17 +156,17 @@ export default class MarkBox extends Vue {
   }
 
   private search() {
-    window.console.log("search")
+    window.console.log('search')
     const value = this.searchUsed.value
     window.console.log(value)
     switch (this.searchUsed.type) {
-      case "baidu":
+      case 'baidu':
         this.searchBaidu(value)
         break
-      case "google":
+      case 'google':
         this.searchGoogle(value)
         break
-      case "bing":
+      case 'bing':
         this.searchBing(value)
         break
       default:
@@ -138,13 +174,13 @@ export default class MarkBox extends Vue {
     }
   }
   private searchBaidu(value: string) {
-    window.open(`https://www.baidu.com/s?wd=${value}`, "_blank")
+    window.open(`https://www.baidu.com/s?wd=${value}`, '_blank')
   }
   private searchGoogle(value: string) {
-    window.open(`https://www.google.com/search?q=${value}`, "_blank")
+    window.open(`https://www.google.com/search?q=${value}`, '_blank')
   }
   private searchBing(value: string) {
-    window.open(`https://www.bing.com/search?q=${value}`, "_blank")
+    window.open(`https://www.bing.com/search?q=${value}`, '_blank')
   }
 }
 </script>

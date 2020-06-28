@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     isShowLogin: false,
     name: '',
-    isOK: false,
+    isOK: false
   },
   mutations: {
     toggleLogin(state, value) {
@@ -31,6 +31,5 @@ export default new Vuex.Store({
       context.commit('setName', value)
     }
   },
-  modules: {
-  }
+  modules: {}
 })
