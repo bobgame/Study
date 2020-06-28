@@ -42,12 +42,6 @@
     <div class="mark-con-empty"></div>
     <div class="mark-con-empty"></div>
     <div class="mark-con-empty"></div>
-    <button @click="saveMark()">save</button>
-    <draggable v-model="myList">
-      <div v-for="element in myList" :key="element.id" class="item">
-        {{ element.name }}
-      </div>
-    </draggable>
   </draggable>
 </template>
 
