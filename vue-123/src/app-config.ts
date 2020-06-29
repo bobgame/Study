@@ -1,3 +1,4 @@
 export const APPUSE = {
-  host: 'http://localhost:602'
+  host: 'http://123456789.llbnew.com'
+  // host: 'http://localhost:602'
 }
