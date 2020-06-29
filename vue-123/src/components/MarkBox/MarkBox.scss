@@ -30,6 +30,9 @@ $cardWidth: 20%;
 
 				.mark-con-title {
 					background: linear-gradient(180deg, #fafafa, #fff);
+					.mark-edit{
+						opacity: 1;
+					}
 				}
 			}
 		}
@@ -45,7 +48,7 @@ $cardWidth: 20%;
 			background: linear-gradient(180deg, #f5f5f5, #fff);
 			position: relative;
 
-			.mark-add {
+			.mark-add, .mark-edit {
 				position: absolute;
 				right: 0;
 				top: 0;
@@ -67,9 +70,19 @@ $cardWidth: 20%;
 					}
 				}
 			}
+			.mark-edit {
+				opacity: 0;
+				right: auto;
+				left: 0;
+				img {
+					width: 1.5rem;
+					height: 1.5rem;
+				}
+			}
 		}
 
 		.mark-list {
+			height: calc(100% - 3rem);
 			display: flex;
 			flex-wrap: wrap;
 			align-content: flex-start;
@@ -110,20 +123,22 @@ $cardWidth: 20%;
 					align-items: center;
 				}
 
-				.mark-edit {
+				.mark-item-edit {
 					position: absolute;
 					right: 0;
 					top: 0.5rem;
-					width: 2rem;
+					width: 3rem;
 					height: 3rem;
 					display: flex;
 					justify-content: center;
 					align-items: center;
 					cursor: pointer;
 					transition: all .3s;
+					opacity: 0;
+					background: rgba($color: #eafffc, $alpha: .9);
 					img {
-						width: 2rem;
-						height: 2rem;
+						width: 1.5rem;
+						height: 1.5rem;
 						margin: 0;
 						opacity: .4;
 					}
@@ -153,6 +168,9 @@ $cardWidth: 20%;
 				&:hover {
 					text-decoration: none;
 					background-color: #eafffc;
+					.mark-item-edit {
+						opacity: 1;
+					}
 				}
 			}
 
@@ -160,11 +178,11 @@ $cardWidth: 20%;
 	}
 
 	.mark-item-empty {
-		width: 12rem;
+		width: 20%;
 	}
 
 	.mark-con-add {
-		width: 12rem;
+		width: 20%;
 		padding: 1.5rem;
 		.mark-list-add {
 			width: 100%;
@@ -261,9 +279,16 @@ $cardWidth: 20%;
 			margin-bottom: 2rem;
 		}
 
+		.button-content {
+			padding-top: 2rem;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
 		button {
-			margin-top: 2rem;
-			width: 25%;
+			width: 22%;
 			margin-left: 5%;
 			background-color: #0b82e4;
 			height: 4rem;
@@ -279,9 +304,27 @@ $cardWidth: 20%;
 			&.btn-cancel {
 				margin-left: 0;
 				margin-right: 5%;
-				background-color: #999;
+				background-color: #bbb;
 				&:hover {
-					background-color: #777;
+					background-color: #aaa;
+				}
+			}
+			&.btn-del {
+				width: 6%;
+				margin-left: 0;
+				margin-right: 0;
+				background-color: #fff;
+				color: #ffffff;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				&:hover {
+					background-color: #f1f1f1;
+				}
+				img {
+					display: inline-block;
+					width: 1.8rem;
+					height: 1.8rem;
 				}
 			}
 		}

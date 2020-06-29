@@ -64,6 +64,11 @@
           "url": "https://cli.vuejs.org/zh/"
         },
         {
+          "name": "Vuejs zh",
+          "icon": "static/icon/vue.png",
+          "url": "https://cn.vuejs.org/v2/guide/typescript.html"
+        },
+        {
           "name": "Bootstrap",
           "icon": "static/icon/bootstrap.png",
           "url": "https://v4.bootcss.com/"

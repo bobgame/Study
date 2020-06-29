@@ -14,11 +14,11 @@
       <div class="mark-card">
         <div class="mark-con-title">
           <span>{{ mark.title }}</span>
-          <div
-            class="mark-add"
-            @click="showItemDialog(index, mark.items.length)"
-          >
+          <div class="mark-add" @click="showItemDialog(index, -1)">
             <img src="static/img/add.svg" alt="" />
+          </div>
+          <div class="mark-edit" @click="showGroupDialog(index)">
+            <img src="static/img/edit.svg" alt="" />
           </div>
         </div>
 
@@ -34,18 +34,17 @@
             v-for="(item, subIndex) in mark.items"
             :key="'mark-list-' + index + '-' + subIndex"
           >
-            <div class="color" v-if="!isShowIcon || !item.icon">
+            <!-- <div class="color" v-if="!isShowIcon || !item.icon">
               <i class="color-dot"></i>
-            </div>
+            </div> -->
             <a :href="item.url" target="_blank">
-              <img
-                :src="item.icon"
-                v-if="isShowIcon && item.icon"
-                :onerror="defaultImg"
-              />
+              <img :src="item.icon" :onerror="defaultImg" />
               <span>{{ item.name }}</span>
             </a>
-            <div class="mark-edit" @click="showItemDialog(index, subIndex)">
+            <div
+              class="mark-item-edit"
+              @click="showItemDialog(index, subIndex)"
+            >
               <img src="static/img/edit.svg" alt="" />
             </div>
           </div>
@@ -69,15 +68,20 @@
     >
       <div class="add-mask" @click="hideGroupDialog()"></div>
       <div class="add-content">
-        <h1>添加分组</h1>
+        <h1>{{ groupHeader }}</h1>
         <input v-model="groupTitle" type="text" placeholder="标题" />
         <input type="text" placeholder="标题" style="opacity: 0" />
-        <button class="btn-cancel" @click="hideGroupDialog()">
-          取 消
-        </button>
-        <button @click="addGroup()">
-          确 定
-        </button>
+        <div class="button-content">
+          <button class="btn-cancel" @click="hideGroupDialog()">
+            取 消
+          </button>
+          <button class="btn-del" @click="delGroup()">
+            <img src="static/img/del.svg" alt="" />
+          </button>
+          <button @click="addGroup()">
+            确 定
+          </button>
+        </div>
       </div>
     </div>
     <div
@@ -88,15 +92,20 @@
     >
       <div class="add-mask" @click="hideItemDialog()"></div>
       <div class="add-content">
-        <h1>添加网站</h1>
+        <h1>{{ itemHeader }}</h1>
         <input v-model="itemTitle" type="text" placeholder="标题" />
         <input v-model="itemUrl" type="text" placeholder="网址" />
-        <button class="btn-cancel" @click="hideItemDialog()">
-          取 消
-        </button>
-        <button @click="addItem()">
-          确 定
-        </button>
+        <div class="button-content">
+          <button class="btn-cancel" @click="hideItemDialog()">
+            取 消
+          </button>
+          <button class="btn-del" @click="delItem()">
+            <img src="static/img/del.svg" alt="" />
+          </button>
+          <button @click="addItem()">
+            确 定
+          </button>
+        </div>
       </div>
     </div>
   </draggable>
@@ -115,7 +124,8 @@ import draggable from 'vuedraggable'
   }
 })
 export default class MarkBox extends Vue {
-  // @Prop() private msg!: string;
+  private groupHeader = '添加分组'
+  private itemHeader = '添加网站'
   private isShowGroupDialog = false
   private groupTitle = ''
   private itemTitle = ''
@@ -128,20 +138,8 @@ export default class MarkBox extends Vue {
   private get name() {
     return store.state.name
   }
-  private showSelectBox = false
-  private searchUsed = {
-    type: 'baidu',
-    name: '百度',
-    value: ''
-  }
   private allMarks: Mark[] = []
   private defaultImg = 'this.src="' + require('../../assets/empty.svg') + '"'
-
-  private allSearches = [
-    { type: 'baidu', name: '百度' },
-    { type: 'google', name: '谷歌' },
-    { type: 'bing', name: '必应' }
-  ]
 
   mounted() {
     const localIsShowIcon = localStorage.getItem('isShowIcon')
@@ -186,6 +184,15 @@ export default class MarkBox extends Vue {
       this.selectedListIndex = index
       this.selectedItemIndex = subIndex
       this.isShowItemDialog = true
+      if (subIndex > -1) {
+        this.itemHeader = '编辑网站'
+        this.itemTitle = this.allMarks[index].items[subIndex].name
+        this.itemUrl = this.allMarks[index].items[subIndex].url
+      } else {
+        this.itemHeader = '添加网站'
+        this.itemTitle = ''
+        this.itemUrl = ''
+      }
     }
   }
   hideItemDialog() {
@@ -194,10 +201,20 @@ export default class MarkBox extends Vue {
     this.isShowItemDialog = false
   }
 
-  showGroupDialog() {
+  showGroupDialog(index?: number) {
+    if (index) {
+      this.groupTitle = this.allMarks[index].title
+      this.selectedListIndex = index
+      this.groupHeader = '编辑分组'
+    } else {
+      this.groupHeader = '添加分组'
+      this.groupTitle = ''
+      this.selectedListIndex = -1
+    }
     this.isShowGroupDialog = true
   }
   hideGroupDialog() {
+    this.selectedListIndex = -1
     this.isShowGroupDialog = false
   }
 
@@ -205,26 +222,39 @@ export default class MarkBox extends Vue {
     if (!this.groupTitle) {
       return false
     }
-    this.allMarks.push({
-      title: this.groupTitle,
-      items: []
-    })
+    if (this.selectedListIndex > -1) {
+      this.allMarks[this.selectedListIndex].title = this.groupTitle
+    } else {
+      this.allMarks.push({
+        title: this.groupTitle,
+        items: []
+      })
+    }
     this.saveMark()
     this.hideGroupDialog()
+  }
+
+  delGroup() {
+    if (this.selectedListIndex > -1) {
+      this.allMarks.splice(this.selectedListIndex, 1)
+      this.saveMark()
+      this.hideGroupDialog()
+    }
   }
 
   addItem() {
     if (!this.itemTitle || !this.itemUrl) {
       return false
     }
-    const thisItem = this.allMarks[this.selectedListIndex][
+    const thisItem = this.allMarks[this.selectedListIndex].items[
       this.selectedItemIndex
     ]
-    if (thisItem) {
-      this.allMarks[this.selectedListIndex][
+    console.log(thisItem)
+    if (thisItem && this.selectedItemIndex > -1) {
+      this.allMarks[this.selectedListIndex].items[
         this.selectedItemIndex
       ].name = this.itemTitle
-      this.allMarks[this.selectedListIndex][
+      this.allMarks[this.selectedListIndex].items[
         this.selectedItemIndex
       ].url = this.itemUrl
     } else {
@@ -237,6 +267,17 @@ export default class MarkBox extends Vue {
     }
     this.saveMark()
     this.hideItemDialog()
+  }
+
+  delItem() {
+    if (this.selectedListIndex > -1 && this.selectedItemIndex > -1) {
+      this.allMarks[this.selectedListIndex].items.splice(
+        this.selectedItemIndex,
+        1
+      )
+      this.saveMark()
+      this.hideItemDialog()
+    }
   }
 
   handleChange() {
@@ -291,42 +332,6 @@ export default class MarkBox extends Vue {
       str += '&#' + value.charCodeAt(i)
     }
     return str
-  }
-
-  private setSearchSelect(typeName: string) {
-    const thisSearch = this.allSearches.find(a => a.type === typeName)
-    if (thisSearch) {
-      this.searchUsed.type = thisSearch.type
-      this.searchUsed.name = thisSearch.name
-    }
-  }
-
-  private search() {
-    window.console.log('search')
-    const value = this.searchUsed.value
-    window.console.log(value)
-    switch (this.searchUsed.type) {
-      case 'baidu':
-        this.searchBaidu(value)
-        break
-      case 'google':
-        this.searchGoogle(value)
-        break
-      case 'bing':
-        this.searchBing(value)
-        break
-      default:
-        break
-    }
-  }
-  private searchBaidu(value: string) {
-    window.open(`https://www.baidu.com/s?wd=${value}`, '_blank')
-  }
-  private searchGoogle(value: string) {
-    window.open(`https://www.google.com/search?q=${value}`, '_blank')
-  }
-  private searchBing(value: string) {
-    window.open(`https://www.bing.com/search?q=${value}`, '_blank')
   }
 }
 </script>
