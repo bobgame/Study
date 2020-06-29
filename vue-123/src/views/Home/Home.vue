@@ -7,22 +7,19 @@
 
 <script lang="ts">
 // @ is an alias to /src
-  import {
-		Component,
-		Vue
-	} from "vue-property-decorator"
-  import SearchBox from '@/components/SearchBox/SearchBox.vue'
-  import MarkBox from '@/components/MarkBox/MarkBox.vue'
-  import store from '../../store/index'
+import { Component, Vue } from 'vue-property-decorator'
+import SearchBox from '@/components/SearchBox/SearchBox.vue'
+import MarkBox from '@/components/MarkBox/MarkBox.vue'
+import store from '../../store/index'
 
-  @Component({
-    components: {
-      SearchBox,
-      MarkBox,
-    }
-  })
+@Component({
+  components: {
+    SearchBox,
+    MarkBox
+  }
+})
 export default class Home extends Vue {
-  get name () {
+  get name() {
     return store.state.name
   }
 }

@@ -3,6 +3,7 @@ export interface Mark {
   items: MarkItem[]
 }
 export interface MarkItem {
+  color?: number
   name: string
   icon: string
   url: string

@@ -43,6 +43,30 @@ $cardWidth: 20%;
 			// padding-left: 1rem;
 			// background: #fafafa;
 			background: linear-gradient(180deg, #f5f5f5, #fff);
+			position: relative;
+
+			.mark-add {
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 3rem;
+				height: 3rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				cursor: pointer;
+				transition: all .3s;
+				img {
+					width: 2rem;
+					height: 2rem;
+					opacity: .4;
+				}
+				&:hover {
+					img {
+						opacity: .6;
+					}
+				}
+			}
 		}
 
 		.mark-list {
@@ -61,6 +85,7 @@ $cardWidth: 20%;
 				display: flex;
 				align-items: center;
 				transition: background-color .3s;
+				position: relative;
 
 				.color {
 					width: 1.6rem;
@@ -68,6 +93,7 @@ $cardWidth: 20%;
 					margin-right: 0.5rem;
 					padding: 0.4rem;
 					cursor: pointer;
+
 					.color-dot {
 						display: block;
 						width: 0.8rem;
@@ -82,6 +108,30 @@ $cardWidth: 20%;
 					text-align: left;
 					display: flex;
 					align-items: center;
+				}
+
+				.mark-edit {
+					position: absolute;
+					right: 0;
+					top: 0.5rem;
+					width: 2rem;
+					height: 3rem;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					cursor: pointer;
+					transition: all .3s;
+					img {
+						width: 2rem;
+						height: 2rem;
+						margin: 0;
+						opacity: .4;
+					}
+					&:hover {
+						img {
+							opacity: .6;
+						}
+					}
 				}
 
 				img {
@@ -106,15 +156,46 @@ $cardWidth: 20%;
 				}
 			}
 
-			.mark-item-empty {
-				width: 12rem;
+		}
+	}
+
+	.mark-item-empty {
+		width: 12rem;
+	}
+
+	.mark-con-add {
+		width: 12rem;
+		padding: 1.5rem;
+		.mark-list-add {
+			width: 100%;
+			height: 100%;
+			border-radius: 1rem;
+			border: 1px dashed #aaa;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+			transition: all .3s;
+			&:hover {
+				border: 1px dashed #777;
+				box-shadow: 0 2px 8px rgba($color: #000000, $alpha: .2);
+				img {
+					opacity: .6;
+				}
 			}
+		}
+
+		img {
+			width: 4rem;
+			height: 4rem;
+			opacity: .4;
 		}
 	}
 
 	@media only screen and (max-width: 1000px) {
 
 		.mark-con-empty,
+		.mark-con-add,
 		.mark-con {
 			width: 25%;
 		}
@@ -123,6 +204,7 @@ $cardWidth: 20%;
 	@media only screen and (max-width: 800px) {
 
 		.mark-con-empty,
+		.mark-con-add,
 		.mark-con {
 			width: 33.3333333%;
 		}
@@ -131,9 +213,77 @@ $cardWidth: 20%;
 	@media only screen and (max-width: 600px) {
 
 		.mark-con-empty,
+		.mark-con-add,
 		.mark-con {
 			width: 50%;
 		}
 	}
 
+}
+
+.add-dialog {
+	position: fixed;
+	z-index: 10;
+	display: flex;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	background: rgba($color: #000000, $alpha: .4);
+	.add-mask {
+		position: fixed;
+		display: block;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+	}
+	.add-content {
+		position: relative;
+		width: 50rem;
+		height: 30rem;
+		background: #fff;
+		border-radius: 1rem;
+		h1 {
+			padding: 2rem;
+		}
+		input {
+			width: 60%;
+			margin: 0.5rem auto;
+			height: 4rem;
+			display: block;
+			border-radius: 0.4rem;
+			border: 1px solid #aaa;
+			padding: 0 1rem;
+			margin-bottom: 2rem;
+		}
+
+		button {
+			margin-top: 2rem;
+			width: 25%;
+			margin-left: 5%;
+			background-color: #0b82e4;
+			height: 4rem;
+			cursor: pointer;
+			font-size: 1.6rem;
+			color: #ffffff;
+			border-radius: 0.4rem;
+			border: none;
+			transition: all .3s;
+			&:hover {
+				background-color: #0d72c5;
+			}
+			&.btn-cancel {
+				margin-left: 0;
+				margin-right: 5%;
+				background-color: #999;
+				&:hover {
+					background-color: #777;
+				}
+			}
+		}
+	}
 }

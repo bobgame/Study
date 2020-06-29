@@ -3,6 +3,7 @@
     class="mark-box"
     :list="allMarks"
     group="allMarksGroup"
+    draggable=".mark-con"
     @change="handleChange"
   >
     <div
@@ -11,10 +12,20 @@
       class="mark-con"
     >
       <div class="mark-card">
-        <div class="mark-con-title">{{ mark.title }}</div>
+        <div class="mark-con-title">
+          <span>{{ mark.title }}</span>
+          <div
+            class="mark-add"
+            @click="showItemDialog(index, mark.items.length)"
+          >
+            <img src="static/img/add.svg" alt="" />
+          </div>
+        </div>
+
         <draggable
           class="mark-list"
           :list="mark.items"
+          draggable=".mark-item"
           group="markGroup"
           @change="handleChange2"
         >
@@ -34,14 +45,60 @@
               />
               <span>{{ item.name }}</span>
             </a>
+            <div class="mark-edit" @click="showItemDialog(index, subIndex)">
+              <img src="static/img/edit.svg" alt="" />
+            </div>
           </div>
         </draggable>
+      </div>
+    </div>
+    <div class="mark-con-add" @click="showGroupDialog()">
+      <div class="mark-list-add">
+        <img src="static/img/add.svg" alt="" />
       </div>
     </div>
     <div class="mark-con-empty"></div>
     <div class="mark-con-empty"></div>
     <div class="mark-con-empty"></div>
     <div class="mark-con-empty"></div>
+    <div
+      class="add-dialog add-group-dialog"
+      role="dialog"
+      tabindex="-1"
+      v-if="isShowGroupDialog"
+    >
+      <div class="add-mask" @click="hideGroupDialog()"></div>
+      <div class="add-content">
+        <h1>添加分组</h1>
+        <input v-model="groupTitle" type="text" placeholder="标题" />
+        <input type="text" placeholder="标题" style="opacity: 0" />
+        <button class="btn-cancel" @click="hideGroupDialog()">
+          取 消
+        </button>
+        <button @click="addGroup()">
+          确 定
+        </button>
+      </div>
+    </div>
+    <div
+      class="add-dialog add-item-dialog"
+      role="dialog"
+      tabindex="-1"
+      v-if="isShowItemDialog"
+    >
+      <div class="add-mask" @click="hideItemDialog()"></div>
+      <div class="add-content">
+        <h1>添加网站</h1>
+        <input v-model="itemTitle" type="text" placeholder="标题" />
+        <input v-model="itemUrl" type="text" placeholder="网址" />
+        <button class="btn-cancel" @click="hideItemDialog()">
+          取 消
+        </button>
+        <button @click="addItem()">
+          确 定
+        </button>
+      </div>
+    </div>
   </draggable>
 </template>
 
@@ -59,7 +116,13 @@ import draggable from 'vuedraggable'
 })
 export default class MarkBox extends Vue {
   // @Prop() private msg!: string;
-  myList = [{ name: 1 }, { name: 2 }, { name: 3 }]
+  private isShowGroupDialog = false
+  private groupTitle = ''
+  private itemTitle = ''
+  private itemUrl = ''
+  private isShowItemDialog = false
+  private selectedListIndex = -1
+  private selectedItemIndex = -1
   private isShowIcon = false
   private isLoadServer = false
   private get name() {
@@ -116,6 +179,64 @@ export default class MarkBox extends Vue {
     // document.removeEventListener("click", e => {
     //   this.showSelectBox = false;
     // });
+  }
+
+  showItemDialog(index: number, subIndex: number) {
+    if (index > -1) {
+      this.selectedListIndex = index
+      this.selectedItemIndex = subIndex
+      this.isShowItemDialog = true
+    }
+  }
+  hideItemDialog() {
+    this.selectedListIndex = -1
+    this.selectedItemIndex = -1
+    this.isShowItemDialog = false
+  }
+
+  showGroupDialog() {
+    this.isShowGroupDialog = true
+  }
+  hideGroupDialog() {
+    this.isShowGroupDialog = false
+  }
+
+  addGroup() {
+    if (!this.groupTitle) {
+      return false
+    }
+    this.allMarks.push({
+      title: this.groupTitle,
+      items: []
+    })
+    this.saveMark()
+    this.hideGroupDialog()
+  }
+
+  addItem() {
+    if (!this.itemTitle || !this.itemUrl) {
+      return false
+    }
+    const thisItem = this.allMarks[this.selectedListIndex][
+      this.selectedItemIndex
+    ]
+    if (thisItem) {
+      this.allMarks[this.selectedListIndex][
+        this.selectedItemIndex
+      ].name = this.itemTitle
+      this.allMarks[this.selectedListIndex][
+        this.selectedItemIndex
+      ].url = this.itemUrl
+    } else {
+      this.allMarks[this.selectedListIndex].items.push({
+        color: 0,
+        name: this.itemTitle,
+        icon: '',
+        url: this.itemUrl
+      })
+    }
+    this.saveMark()
+    this.hideItemDialog()
   }
 
   handleChange() {
