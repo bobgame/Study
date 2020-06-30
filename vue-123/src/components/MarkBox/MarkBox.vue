@@ -3,7 +3,7 @@
     class="mark-box"
     :list="allMarks"
     group="allMarksGroup"
-    draggable=".mark-card"
+    handle=".mark-con-title"
     @change="handleChange"
   >
     <div
