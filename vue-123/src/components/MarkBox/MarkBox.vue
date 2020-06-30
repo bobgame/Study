@@ -3,7 +3,7 @@
     class="mark-box"
     :list="allMarks"
     group="allMarksGroup"
-    draggable=".mark-con"
+    draggable=".mark-card"
     @change="handleChange"
   >
     <div
@@ -81,6 +81,7 @@
           <button @click="addGroup()">
             确 定
           </button>
+          <div class="message" v-if="groupMsg">{{ groupMsg }}</div>
         </div>
       </div>
     </div>
@@ -106,6 +107,7 @@
             确 定
           </button>
         </div>
+        <div class="message" v-if="itemMsg">{{ itemMsg }}</div>
       </div>
     </div>
   </draggable>
@@ -126,6 +128,8 @@ import draggable from 'vuedraggable'
 export default class MarkBox extends Vue {
   private groupHeader = '添加分组'
   private itemHeader = '添加网站'
+  private groupMsg = ''
+  private itemMsg = ''
   private isShowGroupDialog = false
   private groupTitle = ''
   private itemTitle = ''
@@ -180,6 +184,7 @@ export default class MarkBox extends Vue {
   }
 
   showItemDialog(index: number, subIndex: number) {
+    this.itemMsg = ''
     if (index > -1) {
       this.selectedListIndex = index
       this.selectedItemIndex = subIndex
@@ -202,6 +207,7 @@ export default class MarkBox extends Vue {
   }
 
   showGroupDialog(index?: number) {
+    this.groupMsg = ''
     if (index) {
       this.groupTitle = this.allMarks[index].title
       this.selectedListIndex = index
@@ -244,6 +250,15 @@ export default class MarkBox extends Vue {
 
   addItem() {
     if (!this.itemTitle || !this.itemUrl) {
+      this.itemMsg = '请填写标题'
+      return false
+    }
+    if (!this.itemUrl) {
+      this.itemMsg = '请填写网址'
+      return false
+    }
+    if (!this.IsURL(this.itemUrl)) {
+      this.itemMsg = '请检查网址'
       return false
     }
     const thisItem = this.allMarks[this.selectedListIndex].items[
@@ -332,6 +347,18 @@ export default class MarkBox extends Vue {
       str += '&#' + value.charCodeAt(i)
     }
     return str
+  }
+
+  IsURL(url: string) {
+    // eslint-disable-next-line no-useless-escape
+    const reg = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/
+    if (!reg.test(url)) {
+      return false
+      // alert('这网址不是以http://https://开头，或者不是网址！')
+    } else {
+      return true
+      // alert('输入成功')
+    }
   }
 }
 </script>
