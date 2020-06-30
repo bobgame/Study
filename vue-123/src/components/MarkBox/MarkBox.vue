@@ -264,7 +264,6 @@ export default class MarkBox extends Vue {
     const thisItem = this.allMarks[this.selectedListIndex].items[
       this.selectedItemIndex
     ]
-    console.log(thisItem)
     if (thisItem && this.selectedItemIndex > -1) {
       this.allMarks[this.selectedListIndex].items[
         this.selectedItemIndex
@@ -273,10 +272,17 @@ export default class MarkBox extends Vue {
         this.selectedItemIndex
       ].url = this.itemUrl
     } else {
+      const domain = this.itemUrl.split('/') //以“/”进行分割
+      let iconUrl = ''
+      if (domain[2] && domain[0] && domain[0].startsWith('http')) {
+        iconUrl = domain[0] + '//' + domain[2] + '/favicon.ico'
+      } else {
+        iconUrl = '' //如果url不正确就取空
+      }
       this.allMarks[this.selectedListIndex].items.push({
         color: 0,
         name: this.itemTitle,
-        icon: '',
+        icon: iconUrl,
         url: this.itemUrl
       })
     }
