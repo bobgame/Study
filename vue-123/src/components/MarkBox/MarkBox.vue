@@ -357,7 +357,7 @@ export default class MarkBox extends Vue {
 
   IsURL(url: string) {
     // eslint-disable-next-line no-useless-escape
-    const reg = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/
+    const reg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\*\+,;=.]+$/
     if (!reg.test(url)) {
       return false
       // alert('这网址不是以http://https://开头，或者不是网址！')
