@@ -322,7 +322,7 @@ export default class MarkBox extends Vue {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (res: any) => {
             if (res && res.data && res.data.isOK) {
-              console.log('服务器保存成功')
+              // console.log('服务器保存成功')
               localStorage.setItem('mark', JSON.stringify(this.allMarks))
             }
           },
@@ -331,7 +331,7 @@ export default class MarkBox extends Vue {
           }
         )
     } else {
-      console.log('未连接服务器')
+      // console.log('未连接服务器')
     }
   }
 

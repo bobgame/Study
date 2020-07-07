@@ -21,6 +21,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import store from './store/index'
 import Login from '@/components/Login/Login.vue'
+import { setIconTitle } from '@/units/setIconTitle'
 
 @Component({
   components: {
@@ -35,6 +36,7 @@ export default class App extends Vue {
         (this.getIsOk() == 'ok' || this.getIsOk() == 'yes') &&
         this.getName()
       ) {
+        setIconTitle(this.getName()) // 动态修改网站图标和标题
         store.dispatch('setName', this.getName())
         store.dispatch('setOK', true)
       }

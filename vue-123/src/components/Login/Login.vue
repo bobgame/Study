@@ -21,6 +21,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import axios from 'axios'
 import { APPUSE } from '../../app-config'
 import store from '../../store/index'
+import { setIconTitle } from '@/units/setIconTitle'
 
 @Component
 export default class Login extends Vue {
@@ -74,15 +75,16 @@ export default class Login extends Vue {
           response.data['qx'],
           this.username
         )
+        setIconTitle(this.username)
         store.dispatch('setName', this.username)
         store.dispatch('setOK', true)
         store.dispatch('toggleLogin', false)
-        console.log('登录成功！')
+        // console.log('登录成功！')
 
         store.dispatch('toggleLogin')
       })
       .catch(function(error) {
-        console.log(error)
+        // console.log(error)
       })
   }
 }
