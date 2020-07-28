@@ -19,13 +19,29 @@
           </div>
         </div>
       </div>
-      <input
-        id="search-input"
-        @keyup.enter="search()"
-        v-model="searchUsed.value"
-        class="search-input"
-        type="text"
-      />
+      <div class="search-input">
+        <input
+          id="search-input"
+          autocomplete="off"
+          @keyup.enter="search()"
+          v-model="searchUsed.value"
+          :class="[{ 'is-show-arrow': searchUsed.histories.length > 0 }]"
+          type="text"
+        />
+        <div class="search-input-expand" @click="showHistoryPop()" v-if="searchUsed.histories.length > 0">
+          <img src="static/img/down.svg" alt="" />
+        </div>
+        <div class="search-select-box search-history-box" v-if="showInputHistoryBox">
+          <div
+            v-for="item of searchUsed.histories"
+            :key="'select-key-' + item"
+            class="select-option"
+            @click="getSearchValueFromHistory(item)"
+          >
+            {{ item }}
+          </div>
+        </div>
+      </div>
       <div class="search-btn" @click="search()">搜索</div>
     </div>
   </div>
@@ -33,15 +49,22 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-
+interface SearchUsed {
+  type: string
+  name: string
+  value: string
+  histories: string[]
+}
 @Component
 export default class SearchBox extends Vue {
   // @Prop() private msg!: string;
   private showSelectBox = false
-  private searchUsed = {
+  private showInputHistoryBox = false
+  private searchUsed: SearchUsed = {
     type: 'baidu',
     name: '百度',
-    value: ''
+    value: '',
+    histories: []
   }
 
   private allSearches = [
@@ -80,6 +103,19 @@ export default class SearchBox extends Vue {
     }
   }
 
+  private showHistoryPop() {
+    this.showInputHistoryBox = true
+  }
+
+  private hideHistoryPop() {
+    this.showInputHistoryBox = false
+  }
+
+  private getSearchValueFromHistory(item: string) {
+    this.searchUsed.value = item
+    this.hideHistoryPop()
+  }
+
   private search() {
     const value = this.searchUsed.value
     if (!value) {
@@ -102,9 +138,11 @@ export default class SearchBox extends Vue {
       default:
         break
     }
+    this.searchUsed.histories.unshift(this.searchUsed.value)
+    this.searchUsed.value = ''
   }
   private focusSearchInput() {
-    ;(document.querySelector('#search-input') as HTMLElement).focus()
+    (document.querySelector('#search-input') as HTMLElement).focus()
   }
   private searchBaidu(value: string) {
     window.open(`https://www.baidu.com/s?wd=${value}`, '_blank')

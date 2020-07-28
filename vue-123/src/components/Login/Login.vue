@@ -84,7 +84,7 @@ export default class Login extends Vue {
         store.dispatch('toggleLogin')
       })
       .catch(function(error) {
-        // console.log(error)
+        console.log(error)
       })
   }
 }

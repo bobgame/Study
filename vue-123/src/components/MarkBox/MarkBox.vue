@@ -51,8 +51,8 @@
         </draggable>
       </div>
     </div>
-    <div class="mark-con-add" @click="showGroupDialog()">
-      <div class="mark-list-add">
+    <div class="mark-con-add">
+      <div class="mark-list-add" @click="showGroupDialog()">
         <img src="static/img/add.svg" alt="" />
       </div>
     </div>
