@@ -2,7 +2,7 @@
   <div class="home-con">
     <SearchBox />
     <MarkBox v-if="name" />
-    <Calendar />
+    <!-- <Calendar /> -->
   </div>
 </template>
 
