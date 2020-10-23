@@ -2,6 +2,7 @@
   <div class="home-con">
     <SearchBox />
     <MarkBox v-if="name" />
+    <Calendar />
   </div>
 </template>
 
@@ -10,12 +11,14 @@
 import { Component, Vue } from 'vue-property-decorator'
 import SearchBox from '@/components/SearchBox/SearchBox.vue'
 import MarkBox from '@/components/MarkBox/MarkBox.vue'
+import Calendar from '@/components/Calendar/Calendar.vue'
 import store from '../../store/index'
 
 @Component({
   components: {
     SearchBox,
-    MarkBox
+    MarkBox,
+    Calendar
   }
 })
 export default class Home extends Vue {
