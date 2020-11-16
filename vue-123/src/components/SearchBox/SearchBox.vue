@@ -28,10 +28,17 @@
           :class="[{ 'is-show-arrow': searchUsed.histories.length > 0 }]"
           type="text"
         />
-        <div class="search-input-expand" @click="showHistoryPop()" v-if="searchUsed.histories.length > 0">
+        <div
+          class="search-input-expand"
+          @click="showHistoryPop()"
+          v-if="searchUsed.histories.length > 0"
+        >
           <img src="static/img/down.svg" alt="" />
         </div>
-        <div class="search-select-box search-history-box" v-if="showInputHistoryBox">
+        <div
+          class="search-select-box search-history-box"
+          v-if="showInputHistoryBox"
+        >
           <div
             v-for="item of searchUsed.histories"
             :key="'select-key-' + item"
@@ -142,7 +149,7 @@ export default class SearchBox extends Vue {
     this.searchUsed.value = ''
   }
   private focusSearchInput() {
-    (document.querySelector('#search-input') as HTMLElement).focus()
+    ;(document.querySelector('#search-input') as HTMLElement).focus()
   }
   private searchBaidu(value: string) {
     window.open(`https://www.baidu.com/s?wd=${value}`, '_blank')

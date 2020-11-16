@@ -3,7 +3,7 @@ module.exports = {
   singleQuote: true,
   semi: false,
   bracketSpacing: true,
-  htmlWhitespaceSensitivity: "ignore",
-  trailingComma: "none",
+  htmlWhitespaceSensitivity: 'ignore',
+  trailingComma: 'none',
   noImplicitAny: false
-};
+}
